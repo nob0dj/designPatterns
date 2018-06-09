@@ -4,19 +4,35 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 public class Calculator {
+	Logger logger = Logger.getLogger(getClass());
 	
-	public int calcSum(String filepath) throws NumberFormatException, IOException{
+	public int calcSum(String filepath) throws IOException{
+		BufferedReader br = null;
 		
-		BufferedReader br = new BufferedReader(new FileReader(filepath));
-		int sum = 0;
-		String line = null;
-		while((line=br.readLine())!=null){
-			sum += Integer.valueOf(line);
+		try{
+			br = new BufferedReader(new FileReader(filepath));
+			int sum = 0;
+			String line = null;
+			while((line=br.readLine())!=null){
+				sum += Integer.valueOf(line);
+			}
+				
+			return sum;
+		} catch(IOException e){
+			logger.debug(e.getMessage());
+			throw e;
+		} finally {
+			if(br!=null){
+				try{
+					br.close();
+				} catch(IOException e){
+					logger.debug(e.getMessage());
+				}
+			}
 		}
 		
-		br.close();
-		
-		return sum;
 	}
 }
