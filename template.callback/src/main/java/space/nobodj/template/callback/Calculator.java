@@ -35,4 +35,31 @@ public class Calculator {
 		}
 		
 	}
+	
+	public int calcMultiply(String filepath) throws IOException{
+		BufferedReader br = null;
+		
+		try{
+			br = new BufferedReader(new FileReader(filepath));
+			int result = 1;
+			String line = null;
+			while((line=br.readLine())!=null){
+			    result *= Integer.valueOf(line);
+			}
+				
+			return result;
+		} catch(IOException e){
+			logger.debug(e.getMessage());
+			throw e;
+		} finally {
+			if(br!=null){
+				try{
+					br.close();
+				} catch(IOException e){
+					logger.debug(e.getMessage());
+				}
+			}
+		}
+		
+	}
 }
